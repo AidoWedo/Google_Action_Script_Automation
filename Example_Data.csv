@@ -1,0 +1,7 @@
+First Name,Last Name,Date of Hire,Role,AMS State,Email,Manager,Email Sent,Day1 Arrival Approved,Region,EMEA/APJ Country
+John,Doe,01/07/2024,Consultant,CA,test@test.com,Manager1,No,Yes,AMS,
+Jane,Smith,15/01/2025,Engineer,NY,test@test.com,Manager2,Yes,No,AMS,
+Alice,Brown,20/03/2025,Analyst,,test@test.com,Manager3,No,Yes,EMEA,UK
+Bob,White,05/09/2024,Sales,,test@test.com,Manager4,No,Yes,EMEA,Germany
+Charlie,Green,10/06/2025,Support,,test@test.com,Manager5,No,No,APJ,India
+David,Black,01/12/2024,Consultant,,test@test.com,Manager6,Yes,Yes,APJ,Japan
