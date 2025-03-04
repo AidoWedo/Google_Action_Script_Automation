@@ -1,0 +1,50 @@
+function sendEMEAOnboardingEmails() {
+  var ss = SpreadsheetApp.openById("Example_Spreadsheet"); // Replace with actual Sheet ID
+  var sheet = ss.getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+
+  // Identify column indexes
+  var headers = data[0];
+  var regionIndex = headers.indexOf("Region");
+  var firstNameIndex = headers.indexOf("First Name");
+  var emailIndex = headers.indexOf("Zs Email");
+  var managerIndex = headers.indexOf("Manager");
+  var emailSentIndex = headers.indexOf("Email Sent");
+
+  // If "Email Sent" column doesn't exist, create it
+  if (emailSentIndex === -1) {
+    sheet.getRange(1, headers.length + 1).setValue("Email Sent");
+    emailSentIndex = headers.length;
+  }
+
+  // Email Template
+  var subject = "Welcome to Test Inc. - Your Onboarding Learning Path";
+  var bodyTemplate = "Hi {{FirstName}},\n\nWelcome to Test Inc.! " +
+                     "You have been onboarded to our initial learning path by your manager {{Manager}}. " +
+                     "This will be required to be completed in week 1 of your onboarding, " +
+                     "and your manager will discuss the content with you in your 1-to-1 meetings.\n\n" +
+                     "Any questions? Let us know!\n\nThanks,\nThe Team";
+
+  // Loop through data and send emails
+  for (var i = 1; i < data.length; i++) {
+    var region = data[i][regionIndex];
+    var firstName = data[i][firstNameIndex];
+    var email = data[i][emailIndex];
+    var manager = data[i][managerIndex];
+    var emailSent = data[i][emailSentIndex];
+
+    // Check if it's EMEA and email hasn't been sent
+    if (region === "EMEA" && (!emailSent || emailSent === "")) {
+      // Personalize email content
+      var body = bodyTemplate.replace("{{FirstName}}", firstName).replace("{{Manager}}", manager);
+
+      // Send email
+      GmailApp.sendEmail(email, subject, body);
+
+      // Mark email as sent in the sheet
+      sheet.getRange(i + 1, emailSentIndex + 1).setValue("Yes");
+    }
+  }
+
+  Logger.log("Emails sent successfully for EMEA region.");
+}
